@@ -10,7 +10,7 @@ public class Commande {
 
     private int idCde;
     private DateP dateCde;
-    HashMap<TypeDechet, Ligne> lesLignes;
+    private HashMap<TypeDechet, Ligne> lesLignes;
 
     public Commande(int idCode, DateP dateCde) {
         this.idCde = idCode;
@@ -22,12 +22,23 @@ public class Commande {
     }
 
     public void ajoutLigne(TypeDechet unTypeDechet, Ligne uneLigne) {
-        lesLignes.put(unTypeDechet, uneLigne);
+    	lesLignes = new HashMap<TypeDechet, Ligne>();
+    	TypeDechet x = new TypeDechet(unTypeDechet.getId(),unTypeDechet.getLibelle(),unTypeDechet.getNbKiloParSac(),unTypeDechet.getPrixUnite());
+        unTypeDechet = x;
+        Ligne y = new Ligne(uneLigne.getNbSac(),uneLigne.getPrixUniteFacture()); 
+        uneLigne = y;
+    	lesLignes.put(x,y);
     }
 
 
-    public void ajoutLigne(TypeDechet unTypeDechet, int nbsac) {
-        Ligne ligne = new Ligne(nbsac, nbsac * unTypeDechet.getPrixUnite());
+    @Override
+	public String toString() {
+		return "Commande [idCde=" + idCde + ", dateCde=" + dateCde + ", lesLignes=" + lesLignes + "]";
+	}
+
+	public void ajoutLigne(TypeDechet unTypeDechet, int nbsac) {
+    	double temp = nbsac * unTypeDechet.getPrixUnitare();
+        Ligne ligne = new Ligne(nbsac, temp);
         this.ajoutLigne(unTypeDechet, ligne);
     }
 
@@ -38,11 +49,14 @@ public class Commande {
 
     public double getPoidsTotal() {
         double poidsTotal = 0;
-
+        TypeDechet k;
+        Ligne v;
         for (Map.Entry<TypeDechet, Ligne> entry : lesLignes.entrySet()) {
-            TypeDechet k = entry.getKey();
-            Ligne v = entry.getValue();
-            poidsTotal += k.getNbKiloParSac() * v.getNbSac();
+            k = entry.getKey();
+            v = entry.getValue();
+            System.out.println(entry.getValue());
+            System.out.println("issou");
+            poidsTotal = poidsTotal + ( k.getNbKiloParSac() * v.getNbSac());
         }
 
         return poidsTotal;
@@ -50,12 +64,20 @@ public class Commande {
     }
 
     public double getMontantTotal() {
-        double montantTotal = 0;
-        
-        for (Map.Entry<TypeDechet, Ligne> entry : lesLignes.entrySet()) {
-            TypeDechet k = entry.getKey();
-            Ligne v = entry.getValue();
-            montantTotal += k.getPrixUnite() * v.getNbSac();
+ 
+    	double montantTotal = 0;
+    	
+
+    	int wk = lesLignes.size();
+    	TypeDechet k;
+        Ligne v;
+        for (Map.Entry<TypeDechet, Ligne> entry : this.lesLignes.entrySet()) {
+             
+             for (int issou = 0; issou < wk;issou++) {
+            	 k = entry.getKey();
+                 v = entry.getValue();
+           montantTotal = montantTotal+k.getPrixUnitare() * v.getNbSac();
+        }
         }
 
         return montantTotal;

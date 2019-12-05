@@ -14,12 +14,17 @@ public class Ligne {
         this.prixUniteFacture = prixUniteFacture;
     }
 
-    public int getNbSac() {
-        return nbSac;
+    @Override
+	public String toString() {
+		return "Ligne [nbSac=" + nbSac + ", prixUniteFacture=" + prixUniteFacture + "]";
+	}
+
+	public int getNbSac() {
+        return this.nbSac;
     }
 
     public double getPrixUniteFacture() {
-        return prixUniteFacture;
+        return this.prixUniteFacture;
     }
 }
 

@@ -17,7 +17,12 @@ public class AllumeFeu extends TypeDechet {
         this.libbeleEssence = libbeleEssence;
     }
 
-    public String getLibbeleEssence() {
+    @Override
+	public String toString() {
+		return "AllumeFeu [libbeleEssence=" + libbeleEssence + ", valeurEnergetique=" + valeurEnergetique + "]";
+	}
+
+	public String getLibbeleEssence() {
         return libbeleEssence;
     }
 

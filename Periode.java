@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Periode {
-    private DateP dateDebut;
+    
+	private DateP dateDebut;
     private DateP dateFin;
     ArrayList<Commande> commandes = new ArrayList<Commande>();
 
@@ -12,7 +14,6 @@ public class Periode {
 
     }
 
-    // ajouter une commande à la liste des commandes
 
     public void ajoutCommande(Commande uneCommande) {
         commandes.add(uneCommande);
@@ -33,18 +34,27 @@ public class Periode {
 
     }
 
+    @Override
+	public String toString() {
+		return "Periode [dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", commandes=" + commandes + "]";
+	}
 
-    // Fonction ventesAllumeFeu() : Dictionnaire<chaîne, entier>
-//La méthode retourne un dictionnaire contenant comme
-// clé le libellé de l’essence de bois et comme valeur le
-// nombre de sacs d’allume-feux vendus.
 
-
-   /* public HashMap venteAllumeFeu(){
-        HashMap<>
-
-    }*/
+	public HashMap venteAllumeFeu() {
+        HashMap<String, Integer> ventesA = new HashMap<String, Integer>();
+        for (Commande commande : this.commandes) {
+            for (Map.Entry<TypeDechet, Ligne> entry : commande.getLesLignes().entrySet()) {
+                TypeDechet k = entry.getKey();
+                Ligne v = entry.getValue();
+                if (k instanceof AllumeFeu) {
+                    ventesA.put(((AllumeFeu) k).getLibbeleEssence(), v.getNbSac());
+                }
+            }
+        }
+        return ventesA;
+    }
 }
+
 
 
 
